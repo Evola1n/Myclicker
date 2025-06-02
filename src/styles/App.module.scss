@@ -1,0 +1,682 @@
+/* ===================================================================================== */
+/*                            src/styles/App.module.scss                                  */
+/* ===================================================================================== */
+
+/* -------------------------------------------- */
+/* 1. RESET & BASE STYLES                      */
+/* -------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background: #f6f8fa;
+  color: #23272f;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+}
+
+/* -------------------------------------------- */
+/* 2. CONTAINER & THEMES                       */
+/* -------------------------------------------- */
+
+.container {
+  /* glassmorphism + мягкая тень */
+  background: rgba(255,255,255,0.18);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(31,38,135,0.10), 0 1.5px 8px rgba(255,255,255,0.10) inset;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(12px) saturate(160%);
+  max-width: 440px;
+  margin: 5% auto;
+  padding: 2.5rem 1.7rem;
+  text-align: center;
+  color: #23272f;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+/* Default-тема */
+.container.skin_default {
+  background: rgba(255,255,255,0.18);
+  color: #23272f;
+}
+.container.skin_default .title,
+.container.skin_default .counter {
+  color: #23272f;
+  text-shadow: 0 2px 12px #4f8cff22;
+}
+.container.skin_default .button {
+  background: linear-gradient(90deg, #4f8cff 0%, #6ed0ff 100%);
+  color: #fff;
+}
+.container.skin_default .button:hover {
+  background: linear-gradient(90deg, #357ae8 0%, #4f8cff 100%);
+}
+.container.skin_default .upgrades {
+  background: rgba(255,255,255,0.18);
+  border: 1.5px solid #e3e7ed;
+}
+.container.skin_default .upgrades h3 {
+  color: #4f8cff;
+  text-shadow: 0 2px 8px #4f8cff22;
+}
+.container.skin_default .upgrades .button {
+  background: linear-gradient(90deg, #ffd54f 0%, #ffb300 100%);
+  color: #23272f;
+}
+
+/* Neon-тема */
+.container.skin_neon {
+  background: linear-gradient(135deg, #00FFA3 0%, #DC1FFF 100%);
+  color: #18122b;
+  box-shadow: 0 8px 32px #00ffa355, 0 1.5px 8px #dc1fff22 inset;
+}
+.container.skin_neon .title,
+.container.skin_neon .counter {
+  color: #18122b;
+  text-shadow: 0 2px 12px #DC1FFF33;
+  background: linear-gradient(90deg, #00FFA3 0%, #DC1FFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.container.skin_neon .button {
+  background: linear-gradient(90deg, #00FFA3 0%, #DC1FFF 100%);
+  color: #18122b;
+  text-shadow: 0 1px 8px #fff8;
+  box-shadow: 0 2px 16px #DC1FFF33;
+}
+.container.skin_neon .button:hover {
+  background: linear-gradient(90deg, #DC1FFF 0%, #00FFA3 100%);
+}
+.container.skin_neon .upgrades {
+  background: rgba(255,255,255,0.22);
+  border: 1.5px solid #DC1FFF;
+}
+.container.skin_neon .upgrades h3 {
+  color: #DC1FFF;
+  text-shadow: 0 2px 8px #00FFA355;
+}
+.container.skin_neon .upgrades .button {
+  background: linear-gradient(90deg, #00FFA3 0%, #ffd54f 100%);
+  color: #18122b;
+}
+
+/* Cyber-тема */
+.container.skin_cyber {
+  background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+  color: #fff;
+  box-shadow: 0 8px 32px #203a4388, 0 1.5px 8px #2c536455 inset;
+}
+.container.skin_cyber .title,
+.container.skin_cyber .counter {
+  color: #fff;
+  text-shadow: 0 2px 12px #4f8cff55;
+  background: linear-gradient(90deg, #ffe082 0%, #4f8cff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.container.skin_cyber .button {
+  background: linear-gradient(90deg, #ffe082 0%, #4f8cff 100%);
+  color: #23272f;
+  text-shadow: 0 1px 8px #fff8;
+  box-shadow: 0 2px 16px #4f8cff33;
+}
+.container.skin_cyber .button:hover {
+  background: linear-gradient(90deg, #4f8cff 0%, #ffe082 100%);
+}
+.container.skin_cyber .upgrades {
+  background: rgba(32,53,100,0.22);
+  border: 1.5px solid #4f8cff;
+}
+.container.skin_cyber .upgrades h3 {
+  color: #ffe082;
+  text-shadow: 0 2px 8px #4f8cff55;
+}
+.container.skin_cyber .upgrades .button {
+  background: linear-gradient(90deg, #ffe082 0%, #4f8cff 100%);
+  color: #23272f;
+}
+
+/* Dark-тема */
+.container.skin_dark {
+  background: #181c22;
+  color: #fafdff;
+  box-shadow: 0 8px 32px #181c2255, 0 1.5px 8px #23272f22 inset;
+  border: 2px solid #23272f;
+  backdrop-filter: none;
+}
+.container.skin_dark .title {
+  
+  color: #fafdff;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+  text-shadow: 0 2px 12px #7ab8ffcc, 0 1px 2px #000a;
+}
+.container.skin_dark .counter {
+  color: #ffd54f;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+  text-shadow: 0 2px 8px #ffd54fcc, 0 1px 2px #000a;
+}
+.container.skin_dark .button {
+  background: linear-gradient(90deg, #23272f 0%, #7ab8ff 100%);
+  color: #fff;
+  text-shadow: 0 1px 8px #23272f88;
+  box-shadow: 0 2px 16px #7ab8ff33;
+}
+.container.skin_dark .button:hover {
+  background: linear-gradient(90deg, #7ab8ff 0%, #23272f 100%);
+}
+.container.skin_dark .upgrades {
+  background: #23272f;
+  border: 1.5px solid #23272f;
+}
+.container.skin_dark .upgrades h3 {
+  color: #ffd54f;
+  text-shadow: 0 2px 8px #ffd54f33;
+}
+.container.skin_dark .upgrades .button {
+  background: linear-gradient(90deg, #ffd54f 0%, #7ab8ff 100%);
+  color: #23272f;
+}
+.container.skin_dark .message {
+  background: #23272f;
+  color: #fafdff;
+}
+
+/* Gold-тема */
+.container.skin_gold {
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe082 100%);
+  color: #7c4a00;
+  box-shadow: 0 8px 32px #ffe08255, 0 1.5px 8px #fffbe622 inset;
+}
+.container.skin_gold .title,
+.container.skin_gold .counter {
+  color: #7c4a00;
+  text-shadow: 0 2px 12px #ffd54f55;
+  background: linear-gradient(90deg, #ffb300 0%, #ffd54f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.container.skin_gold .button {
+  background: linear-gradient(90deg, #ffd54f 0%, #ffb300 100%);
+  color: #7c4a00;
+  text-shadow: 0 1px 8px #fffbe688;
+  box-shadow: 0 2px 12px #ffd54f33, 0 1px 4px #fffbe622 inset;
+}
+.container.skin_gold .button:hover {
+  background: linear-gradient(90deg, #ffb300 0%, #ffd54f 100%);
+}
+.container.skin_gold .upgrades {
+  background: rgba(255,224,130,0.18);
+  border: 1.5px solid #ffd54f;
+}
+.container.skin_gold .upgrades h3 {
+  color: #ffb300;
+  text-shadow: 0 2px 8px #ffd54f55;
+}
+.container.skin_gold .upgrades .button {
+  background: linear-gradient(90deg, #fffbe6 0%, #ffd54f 100%);
+  color: #7c4a00;
+}
+
+/* Сообщения для всех тем */
+.message {
+  margin-top: 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  box-shadow: 0 1px 4px rgba(79,140,255,0.06);
+  background: rgba(255,255,224,0.1);
+  color: #23272f;
+}
+.container.skin_neon .message {
+  background: rgba(220,31,255,0.10);
+  color: #18122b;
+}
+.container.skin_cyber .message {
+  background: rgba(79,140,255,0.10);
+  color: #fff;
+}
+.container.skin_dark .message {
+  background: rgba(35,39,47,0.85);
+  color: #f6f8fa;
+}
+.container.skin_gold .message {
+  background: rgba(255,224,130,0.18);
+  color: #7c4a00;
+}
+
+/* -------------------------------------------- */
+/* 3. TITLE & COUNTER                          */
+/* -------------------------------------------- */
+
+.title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 1.3rem;
+  letter-spacing: 1.5px;
+  color: inherit;
+  background: linear-gradient(90deg, #4f8cff 0%, #6ed0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 12px rgba(79,140,255,0.10);
+}
+.container.skin_neon .title {
+  color: #18122b;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+  text-shadow: 0 2px 12px #00FFA355;
+}
+.container.skin_cyber .title {
+  color: #ffe082;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+  text-shadow: 0 2px 12px #4f8cff88;
+}
+
+.counter {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 2.2rem;
+  color: inherit;
+  background: linear-gradient(90deg, #ffd54f 0%, #4f8cff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 8px rgba(255,221,87,0.10);
+}
+.container.skin_neon .counter {
+  color: #18122b;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+  text-shadow: 0 2px 8px #00FFA355;
+}
+.container.skin_cyber .counter {
+  color: #ffe082;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+  text-shadow: 0 2px 8px #4f8cff88;
+}
+
+/* -------------------------------------------- */
+/* 4. BUTTON (UNIVERSAL)                       */
+/* -------------------------------------------- */
+
+.button {
+  display: inline-block;
+  padding: 0.85rem 2.1rem;
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, #4f8cff 0%, #6ed0ff 100%);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(79,140,255,0.13), 0 1px 4px rgba(255,255,255,0.10) inset;
+  transition: background 0.22s, box-shadow 0.18s, transform 0.12s;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+.button:hover {
+  background: linear-gradient(90deg, #357ae8 0%, #4f8cff 100%);
+  box-shadow: 0 4px 16px rgba(79,140,255,0.18), 0 2px 8px rgba(255,255,255,0.12) inset;
+  transform: translateY(-2px) scale(1.03);
+}
+.button:active {
+  background: #357ae8;
+  box-shadow: 0 1px 4px rgba(79,140,255,0.12), 0 1px 4px rgba(255,255,255,0.08) inset;
+  transform: scale(0.98);
+}
+.container.skin_neon .button {
+  background: linear-gradient(90deg, #00FFA3 0%, #DC1FFF 100%);
+  color: #18122b;
+}
+.container.skin_neon .button:hover {
+  background: linear-gradient(90deg, #DC1FFF 0%, #00FFA3 100%);
+}
+.container.skin_cyber .button {
+  background: linear-gradient(90deg, #ffe082 0%, #4f8cff 100%);
+  color: #23272f;
+}
+.container.skin_cyber .button:hover {
+  background: linear-gradient(90deg, #4f8cff 0%, #ffe082 100%);
+}
+.container.skin_dark .button {
+  background: linear-gradient(90deg, #23272f 0%, #7ab8ff 100%);
+  color: #fff;
+}
+.container.skin_dark .button:hover {
+  background: linear-gradient(90deg, #7ab8ff 0%, #23272f 100%);
+}
+.container.skin_gold .button {
+  background: linear-gradient(90deg, #ffd54f 0%, #ffb300 100%);
+  color: #7c4a00;
+  text-shadow: 0 1px 8px #fffbe688;
+  box-shadow: 0 2px 12px #ffd54f33, 0 1px 4px #fffbe622 inset;
+}
+.container.skin_gold .button:hover {
+  background: linear-gradient(90deg, #ffb300 0%, #ffd54f 100%);
+}
+
+button:disabled,
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #e3e7ed !important;
+  color: #b0b8c9 !important;
+  box-shadow: none !important;
+}
+
+/* -------------------------------------------- */
+/* 5. UPGRADES SECTION                         */
+/* -------------------------------------------- */
+
+.upgrades {
+  margin-top: 2.5rem;
+  padding: 1.5rem 1rem 1rem 1rem;
+  background: rgba(255,255,255,0.10);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 2px 12px rgba(255,221,87,0.10),
+              0 1px 4px rgba(255,255,255,0.10) inset;
+  position: relative;
+}
+
+.upgrades::before {
+  content: '';
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, #ffd54f 0%, transparent 80%);
+  opacity: 0.10;
+  z-index: 0;
+}
+
+.upgrades h3 {
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffd54f;
+  text-shadow: 0 2px 8px rgba(255,221,87,0.18);
+}
+
+.upgrades .button {
+  background: linear-gradient(90deg, #ffd54f 0%, #ffb300 100%);
+  color: #20232a;
+  box-shadow: 0 2px 8px rgba(255,221,87,0.18),
+              0 1px 4px rgba(255,255,255,0.10) inset;
+  border-radius: 14px;
+  font-weight: 700;
+  transition: background 0.3s, box-shadow 0.2s, transform 0.12s;
+}
+
+.upgrades .button:hover {
+  background: linear-gradient(90deg, #ffcf33 0%, #ffd54f 100%);
+  box-shadow: 0 4px 16px rgba(255,221,87,0.22),
+              0 2px 12px rgba(255,255,255,0.12) inset;
+  transform: scale(1.03);
+}
+
+.upgrades .button:active {
+  background: linear-gradient(90deg, #ffbf00 0%, #ffcf33 100%);
+  box-shadow: 0 1px 4px rgba(255,221,87,0.10),
+              0 1px 4px rgba(255,255,255,0.08) inset;
+  transform: scale(0.97);
+}
+.container.skin_dark .upgrades {
+  background: rgba(35,39,47,0.85);
+  border: 1px solid #23272f;
+}
+.container.skin_dark .upgrades h3 {
+  color: #ffd54f;
+  text-shadow: 0 2px 8px #ffd54f33;
+}
+.container.skin_dark .upgrades .button {
+  background: linear-gradient(90deg, #ffd54f 0%, #7ab8ff 100%);
+  color: #23272f;
+}
+.container.skin_gold .upgrades {
+  background: rgba(255,224,130,0.18);
+  border: 1px solid #ffd54f;
+}
+.container.skin_gold .upgrades h3 {
+  color: #ffb300;
+  text-shadow: 0 2px 8px #ffd54f55;
+}
+.container.skin_gold .upgrades .button {
+  background: linear-gradient(90deg, #fffbe6 0%, #ffd54f 100%);
+  color: #7c4a00;
+}
+
+/* -------------------------------------------- */
+/* 6. CASES MENU SECTION                        */
+/* -------------------------------------------- */
+
+.casesMenu {
+  margin-top: 2.8rem;
+  text-align: left;
+}
+
+.menuPanel {
+  background: rgba(255,255,255,0.10);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.caseItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.3rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.caseItem:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.caseItem strong {
+  font-size: 1rem;
+  color: #23272f;
+}
+
+.caseItem small {
+  font-size: 0.85rem;
+  color: #b0b8c9;
+}
+
+/* -------------------------------------------- */
+/* 7. SIMPLE REEL (CASE ANIMATION)             */
+/* -------------------------------------------- */
+
+.simpleReelWrapper {
+  width: 180px;
+  height: 50px;
+  margin: 0.75rem auto;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.simpleReel {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-50px); /* средний элемент по центру */
+}
+
+.simpleItem {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #b0b8c9;
+}
+
+.simpleItemActive {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  color: #4f8cff;
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px;
+}
+
+/* -------------------------------------------- */
+/* 8. SKINS SECTION                             */
+/* -------------------------------------------- */
+
+.skinsSection {
+  margin-top: 2.5rem;
+  padding: 1.2rem;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.skinsSection h3 {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffe082;
+  text-shadow: 0 2px 8px rgba(255,224,130,0.4);
+}
+
+.skinItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding: 0.4rem 0.2rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.skinItem:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.skinInfo {
+  display: flex;
+  align-items: baseline;
+}
+
+.skinInfo strong {
+  font-size: 1rem;
+  color: inherit;
+}
+
+.skinCost {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  color: #ff8a65;
+}
+
+.skinsContainer {
+  margin-top: 2rem;
+}
+
+/* -------------------------------------------- */
+/* 9. MESSAGE BUBBLE                            */
+/* -------------------------------------------- */
+
+.message {
+  margin-top: 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  box-shadow: 0 1px 4px rgba(79,140,255,0.06);
+  background: rgba(255,255,224,0.1);
+  color: #23272f;
+}
+.container.skin_neon .message {
+  background: rgba(220,31,255,0.10);
+  color: #18122b;
+}
+.container.skin_cyber .message {
+  background: rgba(79,140,255,0.10);
+  color: #fff;
+}
+.container.skin_dark .message {
+  background: rgba(35,39,47,0.85);
+  color: #f6f8fa;
+}
+.container.skin_gold .message {
+  background: rgba(255,224,130,0.18);
+  color: #7c4a00;
+}
+
+/* -------------------------------------------- */
+/* 10. MEDIA QUERIES                            */
+/* -------------------------------------------- */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 2rem 1rem;
+  }
+  .title {
+    font-size: 1.8rem;
+  }
+  .counter {
+    font-size: 1.3rem;
+  }
+  .button {
+    padding: 0.6rem 1.4rem;
+    font-size: 1rem;
+  }
+  .upgrades h3,
+  .skinsSection h3 {
+    font-size: 1.3rem;
+  }
+  .skinsSection,
+  .upgrades {
+    padding: 1rem;
+  }
+}
