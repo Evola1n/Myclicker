@@ -2,155 +2,176 @@
 import React, { useState, useRef } from "react";
 import styles from "../../styles/App.module.scss";
 
-// Массив с конфигурацией кейсов (можно вынести в отдельный файл, но пока оставим здесь)
+// Пересчитанная конфигурация всех кейсов
 const DEFAULT_CASES = [
+  // ------------------ 1. BRONZE CASE ------------------
   {
     id: "bronze",
     name: "Bronze Case",
     cost: 30,
     rewards: [
-      // Вес суммарно = 100, математическое ожидание ≈ 25.4 (≈ 85 % от 30)
-      { value: 5,   weight: 10 }, // 10 %
-      { value: 10,  weight: 15 }, // 15 %
-      { value: 15,  weight: 20 }, // 20 %
-      { value: 20,  weight: 20 }, // 20 %
-      { value: 30,  weight: 15 }, // 15 %
-      { value: 40,  weight: 10 }, // 10 %
-      { value: 50,  weight: 5  }, // 5 %
-      { value: 60,  weight: 3  }, // 3 %
-      { value: 80,  weight: 1  }, // 1 %
-      { value: 150, weight: 1  }, // 1 %
+      // Итого вес = 100
+      // 60 %: чистый убыток (reward < cost)
+      { value: 5,   weight: 22 }, // −25 кредитов  (–83 %)
+      { value: 10,  weight: 20 }, // −20 кредитов  (–66 %)
+      { value: 20,  weight: 20 }, // −10 кредитов  (–33 %)
+      // 30 %: небольшой профит (+10–20 %)
+      { value: 33,  weight: 15 }, // +3 кредита   (+10 %)
+      { value: 36,  weight: 15 }, // +6 кредитов  (+20 %)
+      // 7 %: средний выигрыш (~×1.6 от cost)
+      { value: 50,  weight: 7  }, // +20 кредитов  (+66 %)
+      // 3 %: джекпот (×3)
+      { value: 100, weight: 1  }, // +70 кредитов  (+233 %)
     ],
   },
+
+  // ------------------ 2. SILVER CASE ------------------
   {
     id: "silver",
     name: "Silver Case",
     cost: 60,
     rewards: [
-      // Вес суммарно = 100, математическое ожидание ≈ 49.5 (≈ 82.5 % от 60)
-      { value: 10,  weight: 10 }, // 10 %
-      { value: 20,  weight: 15 }, // 15 %
-      { value: 30,  weight: 20 }, // 20 %
-      { value: 40,  weight: 20 }, // 20 %
-      { value: 60,  weight: 15 }, // 15 %
-      { value: 80,  weight: 10 }, // 10 %
-      { value: 100, weight: 5  }, // 5 %
-      { value: 150, weight: 3  }, // 3 %
-      { value: 200, weight: 1  }, // 1 %
-      { value: 300, weight: 1  }, // 1 %
+      // Итого вес = 100
+      // 60 %: чистый убыток
+      { value: 20,  weight: 22 }, // −40 кредитов  (–66 %)
+      { value: 40,  weight: 20 }, // −20 кредитов  (–33 %)
+      { value: 50,  weight: 20 }, // −10 кредитов  (–17 %)
+      // 30 %: небольшой профит (+10–20 %)
+      { value: 66,  weight: 15 }, // +6 кредитов   (+10 %)
+      { value: 72,  weight: 15 }, // +12 кредитов  (+20 %)
+      // 7 %: средний выигрыш (~×1.6 от cost)
+      { value: 100, weight: 7  }, // +40 кредитов  (+66 %)
+      // 3 %: джекпот (×2.5)
+      { value: 150, weight: 1  }, // +90 кредитов  (+150 %)
     ],
   },
+
+  // ------------------ 3. GOLD CASE ------------------
   {
     id: "gold",
     name: "Gold Case",
     cost: 120,
     rewards: [
-      // Вес суммарно = 100, математическое ожидание ≈ 115 (≈ 95.8 % от 120)
-      { value: 20,   weight: 15 }, // 15 %
-      { value: 40,   weight: 20 }, // 20 %
-      { value: 60,   weight: 25 }, // 25 %
-      { value: 80,   weight: 15 }, // 15 %
-      { value: 120,  weight: 10 }, // 10 %
-      { value: 200,  weight: 5  }, // 5 %
-      { value: 300,  weight: 4  }, // 4 %
-      { value: 500,  weight: 3  }, // 3 %
-      { value: 800,  weight: 2  }, // 2 %
-      { value: 1200, weight: 1  }, // 1 %
+      // Итого вес = 100
+      // 60 %: чистый убыток
+      { value: 40,   weight: 22 }, // −80 кредитов   (–66 %)
+      { value: 80,   weight: 20 }, // −40 кредитов   (–33 %)
+      { value: 100,  weight: 20 }, // −20 кредитов   (–17 %)
+      // 30 %: небольшой профит (+10–20 %)
+      { value: 132,  weight: 15 }, // +12 кредитов   (+10 %)
+      { value: 144,  weight: 15 }, // +24 кредитов   (+20 %)
+      // 7 %: средний выигрыш (~×1.6 от cost)
+      { value: 200,  weight: 7  }, // +80 кредитов   (+66 %)
+      // 3 %: джекпот (×3.3)
+      { value: 400,  weight: 1  }, // +280 кредитов  (+233 %)
     ],
   },
+
+  // ------------------ 4. PLATINUM CASE ------------------
   {
     id: "platinum",
     name: "Platinum Case",
     cost: 250,
     rewards: [
-      // Вес суммарно = 100, математическое ожидание ≈ 245.5 (≈ 98.2 % от 250)
-      { value: 50,   weight: 18 }, // 18 %
-      { value: 100,  weight: 22 }, // 22 %
-      { value: 150,  weight: 25 }, // 25 %
-      { value: 200,  weight: 15 }, // 15 %
-      { value: 300,  weight: 8  }, // 8 %
-      { value: 500,  weight: 5  }, // 5 %
-      { value: 800,  weight: 3  }, // 3 %
-      { value: 1200, weight: 2  }, // 2 %
-      { value: 2000, weight: 1  }, // 1 %
-      { value: 3000, weight: 1  }, // 1 %
+      // Итого вес = 100
+      // 60 %: чистый убыток
+      { value: 75,   weight: 22 }, // −175 кредитов  (–70 %)
+      { value: 125,  weight: 20 }, // −125 кредитов  (–50 %)
+      { value: 150,  weight: 20 }, // −100 кредитов  (–40 %)
+      // 30 %: небольшой профит (+10–20 %)
+      { value: 275,  weight: 15 }, // +25 кредитов   (+10 %)
+      { value: 300,  weight: 15 }, // +50 кредитов   (+20 %)
+      // 7 %: средний выигрыш (~×1.6 от cost)
+      { value: 400,  weight: 7  }, // +150 кредитов  (+60 %)
+      // 3 %: джекпот (×4)
+      { value: 1000, weight: 1  }, // +750 кредитов  (+300 %)
     ],
   },
+
+  // ------------------ 5. DIAMOND CASE ------------------
   {
     id: "diamond",
     name: "Diamond Case",
     cost: 500,
     rewards: [
-      // Вес суммарно = 100, математическое ожидание ≈ 363 (≈ 72.6 % от 500)
-      { value: 100,  weight: 25 }, // 25 %
-      { value: 200,  weight: 25 }, // 25 %
-      { value: 300,  weight: 19 }, // 19 %
-      { value: 400,  weight: 15 }, // 15 %
-      { value: 600,  weight: 6  }, // 6 %
-      { value: 1000, weight: 4  }, // 4 %
-      { value: 1500, weight: 3  }, // 3 %
-      { value: 2000, weight: 2  }, // 2 %
-      { value: 3000, weight: 0.5 }, // 0.5 %
-      { value: 5000, weight: 0.5 }, // 0.5 %
+      // Итого вес = 100
+      // 60 %: чистый убыток
+      { value: 150,  weight: 22 }, // −350 кредитов  (–70 %)
+      { value: 250,  weight: 20 }, // −250 кредитов  (–50 %)
+      { value: 300,  weight: 20 }, // −200 кредитов  (–40 %)
+      // 30 %: небольшой профит (+10–20 %)
+      { value: 550,  weight: 15 }, // +50 кредитов   (+10 %)
+      { value: 600,  weight: 15 }, // +100 кредитов  (+20 %)
+      // 7 %: средний выигрыш (~×1.6 от cost)
+      { value: 800,  weight: 7  }, // +300 кредитов  (+60 %)
+      // 3 %: джекпот (×4)
+      { value: 2000, weight: 1  }, // +1500 кредитов (+300 %)
     ],
   },
+
+  // ------------------ 6. LEGENDARY CASE ------------------
   {
     id: "legendary",
     name: "Legendary Case",
     cost: 1000,
     rewards: [
-      // Вес суммарно = 100, математическое ожидание ≈ 640 (≈ 64 % от 1000)
-      { value: 50,    weight: 20 }, // 20 %
-      { value: 100,   weight: 20 }, // 20 %
-      { value: 200,   weight: 20 }, // 20 %
-      { value: 400,   weight: 15 }, // 15 %
-      { value: 800,   weight: 10 }, // 10 %
-      { value: 1200,  weight: 5  }, // 5 %
-      { value: 2000,  weight: 4  }, // 4 %
-      { value: 3000,  weight: 3  }, // 3 %
-      { value: 5000,  weight: 2  }, // 2 %
-      { value: 10000, weight: 1  }, // 1 %
+      // Итого вес = 100
+      // 60 %: чистый убыток
+      { value: 300,   weight: 22 }, // −700 кредитов   (–70 %)
+      { value: 500,   weight: 20 }, // −500 кредитов   (–50 %)
+      { value: 700,   weight: 20 }, // −300 кредитов   (–30 %)
+      // 30 %: небольшой профит (+10–20 %)
+      { value: 1100,  weight: 15 }, // +100 кредитов   (+10 %)
+      { value: 1200,  weight: 15 }, // +200 кредитов   (+20 %)
+      // 7 %: средний выигрыш (~×1.5–1.6)
+      { value: 2000,  weight: 7  }, // +1000 кредитов  (+100 %)
+      // 3 %: джекпот (×5)
+      { value: 5000,  weight: 1  }, // +4000 кредитов  (+400 %)
     ],
   },
+
+  // ------------------ 7. MYTHIC CASE ------------------
   {
     id: "mythic",
     name: "Mythic Case",
     cost: 5000,
     rewards: [
-      // Вес суммарно = 100, математическое ожидание ≈ 1705 (≈ 85.25 % от 2000)
-      { value: 400,   weight: 25 }, // 25 %
-      { value: 300,   weight: 25 }, // 25 %
-      { value: 500,   weight: 20 }, // 20 %
-      { value: 1000,  weight: 10 }, // 10 %
-      { value: 2000,  weight: 10 }, // 10 %
-      { value: 5000,  weight: 5  }, // 5 %
-      { value: 8000,  weight: 2  }, // 2 %
-      { value: 12000, weight: 1  }, // 1 %
-      { value: 20000, weight: 1  }, // 1 %
-      { value: 25000, weight: 1  }, // 1 %
+      // Итого вес = 100
+      // 60 %: чистый убыток
+      { value: 1500,  weight: 22 }, // −3500 кредитов  (–70 %)
+      { value: 2500,  weight: 20 }, // −2500 кредитов  (–50 %)
+      { value: 3500,  weight: 20 }, // −1500 кредитов  (–30 %)
+      // 30 %: небольшой профит (+10–20 %)
+      { value: 5500,  weight: 15 }, // +500 кредитов   (+10 %)
+      { value: 6000,  weight: 15 }, // +1000 кредитов  (+20 %)
+      // 7 %: средний выигрыш (~×1.6)
+      { value: 8000,  weight: 7  }, // +3000 кредитов  (+60 %)
+      // 3 %: джекпот (×4)
+      { value: 20000, weight: 1  }, // +15000 кредитов (+300 %)
     ],
   },
-  {  
+
+  // ------------------ 8. ULTIMATE CASE ------------------
+  {
     id: "ultimate",
     name: "Ultimate Case",
     cost: 10000,
     rewards: [
-      // Вес суммарно = 100, математическое ожидание ≈ 1705 (≈ 85.25 % от 2000)
-      { value: 4000,   weight: 25 }, // 25 %
-      { value: 3000,   weight: 25 }, // 25 %
-      { value: 5000,   weight: 20 }, // 20 %
-      { value: 10000,  weight: 10 }, // 10 %
-      { value: 12000,  weight: 10 }, // 10 %
-      { value: 15000,  weight: 5  }, // 5 %
-      { value: 18000,  weight: 2  }, // 2 %
-      { value: 22000, weight: 1  }, // 1 %
-      { value: 20000, weight: 1  }, // 1 %
-      { value: 45000, weight: 1  }, // 1 %
+      // Итого вес = 100
+      // 60 %: чистый убыток
+      { value: 3000,   weight: 22 }, // −7000 кредитов   (–70 %)
+      { value: 5000,   weight: 20 }, // −5000 кредитов   (–50 %)
+      { value: 7000,   weight: 20 }, // −3000 кредитов   (–30 %)
+      // 30 %: небольшой профит (+10–20 %)
+      { value: 11000,  weight: 15 }, // +1000 кредитов   (+10 %)
+      { value: 12000,  weight: 15 }, // +2000 кредитов   (+20 %)
+      // 7 %: средний выигрыш (~×1.6)
+      { value: 20000,  weight: 7  }, // +10000 кредитов  (+100 %)
+      // 3 %: джекпот (×5)
+      { value: 50000,  weight: 1  }, // +40000 кредитов  (+400 %)
     ],
   },
-  
 ];
-
 
 // Хелпер для случайного выбора награды по весам
 function getRandomReward(rewards) {
@@ -160,20 +181,18 @@ function getRandomReward(rewards) {
     if (rnd < r.weight) return r.value;
     rnd -= r.weight;
   }
-  // На всякий случай вернём последнее значение
   return rewards[rewards.length - 1].value;
 }
 
-// Отдельный компонент, отвечающий за рендер и логику одного кейса
+// Компонент CaseItem и CasesMenuWithReels остаются без изменений:
 function CaseItem({ caze, credits, setCredits }) {
   const [busy, setBusy]       = useState(false);
   const [pointer, setPointer] = useState(0);
   const [message, setMessage] = useState("");
   const intervalRef           = useRef(null);
 
-  // При клике «Open» запускаем анимацию именно этого кейса
   const handleOpen = () => {
-    if (busy) return; // если уже крутится — ничего не делать
+    if (busy) return;
     if (credits < caze.cost) {
       setMessage(`Не хватает ${caze.cost - credits} кредитов для ${caze.name}.`);
       return;
@@ -183,15 +202,12 @@ function CaseItem({ caze, credits, setCredits }) {
     setCredits(prev => prev - caze.cost);
 
     const n = caze.rewards.length;
-    // выбираем индекс финальной награды заранее
     const finalIdx = Math.floor(Math.random() * n);
 
-    // запустить быструю смену pointer каждые 80 мс
     intervalRef.current = setInterval(() => {
       setPointer(p => (p + 1) % n);
     }, 80);
 
-    // через 6 сек останавливаемся на finalIdx
     setTimeout(() => {
       clearInterval(intervalRef.current);
       setPointer(finalIdx);
@@ -202,7 +218,6 @@ function CaseItem({ caze, credits, setCredits }) {
     }, 6000);
   };
 
-  // Чтобы отразить три выведенных значения (prev, curr, next) на экране
   const n = caze.rewards.length;
   const prev = caze.rewards[(pointer - 1 + n) % n].value;
   const curr = caze.rewards[pointer].value;
@@ -224,7 +239,6 @@ function CaseItem({ caze, credits, setCredits }) {
 
       <div className={styles.simpleReelWrapper}>
         <div className={styles.simpleReel} style={{ transform: `translateY(-50px)` }}>
-          {/* Здесь всегда отображаем три «ячейки»: предыдущую, текущую (active) и следующую */}
           <div className={styles.simpleItem}>+{prev}</div>
           <div className={styles.simpleItemActive}>+{curr}</div>
           <div className={styles.simpleItem}>+{next}</div>
@@ -236,7 +250,6 @@ function CaseItem({ caze, credits, setCredits }) {
   );
 }
 
-// Основной компонент, который пробегается по DEFAULT_CASES и выводит каждому свой <CaseItem>
 export default function CasesMenuWithReels({ credits, setCredits }) {
   return (
     <div className={styles.casesMenu}>
