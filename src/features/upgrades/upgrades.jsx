@@ -9,7 +9,7 @@ export default function Upgrades({
   level,
   setLevel,
 }) {
-  const MAX_LEVEL = 10;
+  const MAX_LEVEL = 5;
   const BASE_COST = 10;
   const cost = Math.floor(BASE_COST * Math.pow(1.5, level));
 
