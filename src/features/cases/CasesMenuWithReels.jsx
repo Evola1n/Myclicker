@@ -29,9 +29,19 @@ const DEFAULT_CASES = [
     name: "Gold Case",
     cost: 120,
     rewards: [
-      { value: 50, weight: 50 },
-      { value: 100, weight: 30 },
-      { value: 200, weight: 20 },
+      { value: 50,    weight: 50 },
+      { value: 80,    weight: 40 },
+      { value: 120,   weight: 30 },
+      { value: 180,   weight: 10 },
+      { value: 250,   weight: 20 },
+      { value: 400,   weight: 20 },
+      { value: 600,   weight: 15 },
+      { value: 800,   weight: 8  },
+      { value: 1000,  weight: 5  },
+      { value: 1500,  weight: 3  },
+      { value: 2500,  weight: 2  },
+      { value: 5000,  weight: 1  }
+
     ],
   },
   {
