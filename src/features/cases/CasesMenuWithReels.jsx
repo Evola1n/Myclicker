@@ -40,7 +40,7 @@ const DEFAULT_CASES = [
       { value: 1000,  weight: 5  },
       { value: 1500,  weight: 3  },
       { value: 2500,  weight: 2  },
-      { value: 5000,  weight: 1  }
+      { value: 5000,  weight: 1  },
 
     ],
   },
