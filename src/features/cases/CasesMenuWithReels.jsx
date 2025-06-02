@@ -130,6 +130,25 @@ const DEFAULT_CASES = [
       { value: 25000, weight: 1  }, // 1 %
     ],
   },
+  {  
+    id: "ultimate",
+    name: "Ultimate Case",
+    cost: 10000,
+    rewards: [
+      // Вес суммарно = 100, математическое ожидание ≈ 1705 (≈ 85.25 % от 2000)
+      { value: 4000,   weight: 25 }, // 25 %
+      { value: 3000,   weight: 25 }, // 25 %
+      { value: 5000,   weight: 20 }, // 20 %
+      { value: 10000,  weight: 10 }, // 10 %
+      { value: 12000,  weight: 10 }, // 10 %
+      { value: 15000,  weight: 5  }, // 5 %
+      { value: 18000,  weight: 2  }, // 2 %
+      { value: 22000, weight: 1  }, // 1 %
+      { value: 20000, weight: 1  }, // 1 %
+      { value: 45000, weight: 1  }, // 1 %
+    ],
+  },
+  
 ];
 
 
