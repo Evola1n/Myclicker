@@ -1,13 +1,15 @@
+// vite.config.js
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// Замените "my-repo-name" на точное имя вашего репозитория на GitHub
-const repoName = "my-clicker-game";
+// замените "my-clicker-game" на ваше реальное имя репозитория
+const repoName = "MYclicker";
 
 export default defineConfig({
-  base: `/${repoName}/`, // очень важно
+  base: `/${repoName}/`,
   plugins: [react()],
-  build: {
-    outDir: "docs" // вариант, когда собираем сразу в папку docs
-  }
+  // закомментировали или удалили build.outDir:
+  // build: {
+  //   outDir: "docs"
+  // }
 });
