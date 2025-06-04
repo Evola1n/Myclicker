@@ -194,7 +194,7 @@ function CaseItem({ caze, credits, setCredits }) {
   const handleOpen = () => {
     if (busy) return;
     if (credits < caze.cost) {
-      setMessage(`Не хватает ${caze.cost - credits} кредитов для ${caze.name}.`);
+      setMessage(`Не вистачає ${caze.cost - credits} кредитів для ${caze.name}.`);
       return;
     }
     setBusy(true);
@@ -213,7 +213,7 @@ function CaseItem({ caze, credits, setCredits }) {
       setPointer(finalIdx);
       const reward = caze.rewards[finalIdx].value;
       setCredits(prev => prev + reward);
-      setMessage(`Вы выиграли +${reward} кредитов!`);
+      setMessage(`Ви вийграли +${reward} кредитів!`);
       setBusy(false);
     }, 6000);
   };

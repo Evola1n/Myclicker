@@ -30,12 +30,12 @@ export default function Skins({
     if (isUnlocked) {
       // Уже куплен → просто «надеть»
       setSelectedSkin(skinKey);
-      setMessage(`Скин "${skin.name}" применён.`);
+      setMessage(`Скін "${skin.name}" застосований.`);
       return;
     }
 
     if (credits < skin.cost) {
-      setMessage(`Не хватает ${skin.cost - credits} кредитов для "${skin.name}".`);
+      setMessage(`Не вистачає ${skin.cost - credits} кредитів для "${skin.name}".`);
       return;
     }
 
@@ -43,7 +43,7 @@ export default function Skins({
     setCredits(c => c - skin.cost);
     setUnlockedSkins(prev => [...prev, skinKey]);
     setSelectedSkin(skinKey);
-    setMessage(`Вы купили и применили скин "${skin.name}".`);
+    setMessage(`Ви купили і застосували скін "${skin.name}".`);
   };
 
   return (

@@ -18,38 +18,213 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100vh;
+  width: 100vw;
   font-family: 'Roboto', sans-serif;
-  background: #f6f8fa;
-  color: #23272f;
+  background: linear-gradient(120deg, #23272f 0%, #4f8cff 100%);
+  /* Можно добавить шум или blur для глубины */
+  /* background: url('/noise.png'), linear-gradient(120deg, #23272f 0%, #4f8cff 100%); */
+  background-size: cover;
+  color: #fff;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
+  width: 100vw;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem 1rem;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 0;
+  margin: 0;
 }
 
 /* -------------------------------------------- */
 /* 2. CONTAINER & THEMES                       */
 /* -------------------------------------------- */
 
+/*. .container { … max-width: 440px; margin: 5% auto; … } */
+/* === 1. Уже обсуждённое правило для контейнера === */
 .container {
-  /* glassmorphism + мягкая тень */
-  background: rgba(255,255,255,0.18);
-  border-radius: 22px;
-  box-shadow: 0 8px 32px rgba(31,38,135,0.10), 0 1.5px 8px rgba(255,255,255,0.10) inset;
-  border: 1.5px solid rgba(255,255,255,0.18);
-  backdrop-filter: blur(12px) saturate(160%);
-  max-width: 440px;
-  margin: 5% auto;
-  padding: 2.5rem 1.7rem;
-  text-align: center;
-  color: #23272f;
+  width: 100vw;
+  min-height: 100vh;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* === 2. Стили для navbar (табы) === */
+.navbar {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
   position: relative;
-  overflow: hidden;
-  transition: background 0.3s;
+  z-index: 10;
+}
+
+/* Каждый таб-кнопка */
+.navButton {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0.8rem 2.2rem;
+  color: #ffd54f;
+  border-radius: 16px;
+  transition: color 0.2s, background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px #4f8cff22;
+  letter-spacing: 1px;
+}
+
+/* Состояние активного таба: */
+.navButton:hover, .navButton.active {
+  color: #fff;
+  background: linear-gradient(90deg, #4f8cff 0%, #ffd54f 100%);
+  box-shadow: 0 4px 24px #ffd54f33;
+}
+
+/* === 3. Секции отдельных табов (чтобы добавить отступ и центрировать) === */
+.upgradesSection,
+.skinsSection,
+.casesSection,
+.leadersSection {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  overflow: visible;
+  z-index: 2;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.sectionContent {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3.5rem 2.2rem 2.5rem 2.2rem;
+  background: rgba(255,255,255,0.13);
+  border-radius: 32px;
+  box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 2.2rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  /* УБРАНО: max-height: 80vh; */
+  /* УБРАНО: overflow-y: auto; */
+  /* Кастомный скроллбар — можно оставить, если нужен для всей страницы */
+  scrollbar-width: thin;
+  scrollbar-color: #ffd54f #23272f;
+}
+.sectionContent::-webkit-scrollbar {
+  width: 8px;
+  background: #23272f33;
+  border-radius: 8px;
+}
+.sectionContent::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #ffd54f 0%, #4f8cff 100%);
+  border-radius: 8px;
+}
+
+/* Для списка предметов/кейсов/скинов — всегда сверху, не растягивать по высоте */
+.itemsList, .casesList, .skinsList, .upgradesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+/* Кнопка или панель снизу — всегда видна, не уходит за пределы */
+.stickyBottom {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(0deg, rgba(255,255,255,0.18) 80%, transparent 100%);
+  display: flex;
+  justify-content: center;
+  padding: 1.2rem 0 0.5rem 0;
+  z-index: 5;
+  margin-top: auto;
+}
+
+/* Исправление для .sectionContent чтобы не тянулся вниз если мало контента */
+.sectionContent > *:not(.stickyBottom) {
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .sectionContent {
+    max-width: 98vw;
+    padding: 1.5rem 0.5rem;
+    border-radius: 18px;
+  }
+  .button {
+    font-size: 1.2rem;
+    padding: 0.9rem 1.2rem;
+    border-radius: 14px;
+  }
+  .navButton {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+  }
+  .upgradesSection h3,
+  .skinsSection h3,
+  .casesSection h3,
+  .leadersSection h3 {
+    font-size: 1.7rem;
+    margin-bottom: 1.2rem;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: none; }
+}
+
+.upgradesSection h3,
+.skinsSection h3,
+.casesSection h3,
+.leadersSection h3 {
+  font-size: 3.2rem;
+  font-weight: 900;
+  margin-bottom: 2.5rem;
+  letter-spacing: 2.5px;
+  color: #fff;
+  text-shadow: 0 6px 36px #4f8cff99, 0 1px 2px #000a;
+  background: linear-gradient(90deg, #ffd54f 0%, #4f8cff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Default-тема */
@@ -339,68 +514,44 @@ body {
 
 .button {
   display: inline-block;
-  padding: 0.85rem 2.1rem;
-  font-size: 1.13rem;
-  font-weight: 700;
+  padding: 1.3rem 3.5rem;
+  font-size: 1.7rem;
+  font-weight: 900;
   color: #fff;
-  background: linear-gradient(90deg, #4f8cff 0%, #6ed0ff 100%);
+  background: linear-gradient(90deg, #ffd54f 0%, #4f8cff 100%);
   border: none;
-  border-radius: 14px;
+  border-radius: 22px;
   cursor: pointer;
-  box-shadow: 0 2px 12px rgba(79,140,255,0.13), 0 1px 4px rgba(255,255,255,0.10) inset;
+  box-shadow: 0 6px 32px rgba(79,140,255,0.18), 0 2px 8px rgba(255,255,255,0.12) inset;
   transition: background 0.22s, box-shadow 0.18s, transform 0.12s;
   outline: none;
   position: relative;
   overflow: hidden;
+  margin: 1.2rem 0;
+  letter-spacing: 1.2px;
 }
 .button:hover {
-  background: linear-gradient(90deg, #357ae8 0%, #4f8cff 100%);
-  box-shadow: 0 4px 16px rgba(79,140,255,0.18), 0 2px 8px rgba(255,255,255,0.12) inset;
-  transform: translateY(-2px) scale(1.03);
+  background: linear-gradient(90deg, #4f8cff 0%, #ffd54f 100%);
+  color: #fff;
+  transform: scale(1.06);
+  box-shadow: 0 10px 40px #ffd54f55, 0 2px 12px #4f8cff33 inset;
 }
 .button:active {
-  background: #357ae8;
-  box-shadow: 0 1px 4px rgba(79,140,255,0.12), 0 1px 4px rgba(255,255,255,0.08) inset;
+  background: #ffd54f;
+  color: #23272f;
   transform: scale(0.98);
 }
-.container.skin_neon .button {
-  background: linear-gradient(90deg, #00FFA3 0%, #DC1FFF 100%);
-  color: #18122b;
-}
-.container.skin_neon .button:hover {
-  background: linear-gradient(90deg, #DC1FFF 0%, #00FFA3 100%);
-}
-.container.skin_cyber .button {
-  background: linear-gradient(90deg, #ffe082 0%, #4f8cff 100%);
-  color: #23272f;
-}
-.container.skin_cyber .button:hover {
-  background: linear-gradient(90deg, #4f8cff 0%, #ffe082 100%);
-}
-.container.skin_dark .button {
-  background: linear-gradient(90deg, #23272f 0%, #7ab8ff 100%);
-  color: #fff;
-}
-.container.skin_dark .button:hover {
-  background: linear-gradient(90deg, #7ab8ff 0%, #23272f 100%);
-}
-.container.skin_gold .button {
-  background: linear-gradient(90deg, #ffd54f 0%, #ffb300 100%);
-  color: #7c4a00;
-  text-shadow: 0 1px 8px #fffbe688;
-  box-shadow: 0 2px 12px #ffd54f33, 0 1px 4px #fffbe622 inset;
-}
-.container.skin_gold .button:hover {
-  background: linear-gradient(90deg, #ffb300 0%, #ffd54f 100%);
-}
-
-button:disabled,
-.button:disabled {
-  opacity: 0.5;
+.button:disabled,
+.button[disabled] {
+  opacity: 0.7;
   cursor: not-allowed;
-  background: #e3e7ed !important;
-  color: #b0b8c9 !important;
+  background: #b0b8c9 !important;
+  color: #fff !important;
   box-shadow: none !important;
+  filter: grayscale(0.3);
+  text-shadow: none;
+  border: none;
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
 }
 
 /* -------------------------------------------- */
@@ -658,25 +809,90 @@ button:disabled,
 /* -------------------------------------------- */
 
 @media (max-width: 480px) {
-  .container {
-    padding: 2rem 1rem;
+  .container,
+  .upgradesSection,
+  .skinsSection,
+  .casesSection,
+  .leadersSection {
+    width: 100vw;
+    min-height: 100vh;
+    height: 100vh;
+    padding: 0;
   }
-  .title {
-    font-size: 1.8rem;
-  }
-  .counter {
-    font-size: 1.3rem;
+  .upgradesSection h3,
+  .skinsSection h3,
+  .casesSection h3,
+  .leadersSection h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
   }
   .button {
-    padding: 0.6rem 1.4rem;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    padding: 0.7rem 1.2rem;
   }
-  .upgrades h3,
-  .skinsSection h3 {
-    font-size: 1.3rem;
-  }
-  .skinsSection,
-  .upgrades {
-    padding: 1rem;
-  }
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2.5rem auto 1.2rem auto;
+  user-select: none;
+  pointer-events: none;
+  animation: logoPulse 2.5s infinite alternate cubic-bezier(.4,0,.2,1);
+}
+.logoIcon {
+  font-size: 4.2rem;
+  filter: drop-shadow(0 0 24px #4f8cffcc) drop-shadow(0 0 8px #ffd54f99);
+  background: linear-gradient(120deg, #ffd54f 0%, #4f8cff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 8px 32px #4f8cff99, 0 2px 8px #ffd54f99;
+}
+.logoText {
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  margin-top: 0.2rem;
+  background: linear-gradient(90deg, #ffd54f 0%, #4f8cff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 24px #4f8cff77, 0 1px 2px #ffd54f77;
+}
+@keyframes logoPulse {
+  0% { transform: scale(1) rotate(-2deg); filter: brightness(1.05); }
+  100% { transform: scale(1.07) rotate(2deg); filter: brightness(1.18); }
+}
+
+.credits {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2.5rem auto 1.2rem auto;
+  font-size: 1.1rem;
+  color: #fff;
+  opacity: 0.85;
+  text-align: center;
+  letter-spacing: 1.2px;
+  text-shadow: 0 2px 12px #4f8cff55, 0 1px 2px #ffd54f55;
+  background: rgba(255,255,255,0.10);
+  border-radius: 16px;
+  padding: 0.7rem 1.5rem;
+  box-shadow: 0 2px 12px #4f8cff22;
+  transition: background 0.3s, box-shadow 0.3s;
+  backdrop-filter: blur(6px);
+}
+.credits a {
+  color: #ffd54f;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s;
+}
+.credits a:hover {
+  color: #4f8cff;
+  text-decoration: underline;
 }
